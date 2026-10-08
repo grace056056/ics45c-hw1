@@ -24,4 +24,34 @@ TEST(StackTests, PushThenTopSeesTheCharacter) {
     EXPECT_EQ(stk.top(), 'z');
 }
 
-// ADD YOUR TESTS HERE:
+// ADD YOUR TESTS HERE
+
+// catches: pop() on an empty stack not returning '@'
+TEST(StackTests, PopOnEmptyReturnsAt) {
+    Stack stk;
+    EXPECT_EQ(stk.pop(), '@');
+}
+
+// catches: wrong order, or pop() not actually removing
+TEST(StackTests, PopReturnsLastPushedFirst) {
+    Stack stk;
+    stk.push('a');
+    stk.push('b');
+    EXPECT_EQ(stk.pop(), 'b');
+    EXPECT_EQ(stk.pop(), 'a');
+    EXPECT_TRUE(stk.isEmpty());
+}
+
+// catches: wrong capacity, or a push on a full stack overwriting data
+TEST(StackTests, FullStackIgnoresExtraPush) {
+    Stack stk;
+    for (int i = 0; i < STK_MAX - 1; ++i) {
+        stk.push('a');
+    }
+    EXPECT_FALSE(stk.isFull());
+    stk.push('b');
+    EXPECT_TRUE(stk.isFull());
+    stk.push('c');
+    EXPECT_EQ(stk.top(), 'b');
+}
+
